@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurant{% endblock %}
+
+{% block body %}
+    <a href="{{ path('restaurant_index') }}"><i class="fa fa-arrow left"></i> retour à la liste</a>
+
+    <h1>{{ restaurant.name }}</h1>
+    <h2>
+        {% if restaurant.reviews.count == 0 %}
+            Soyez les premiers à laisser un avis sur ce restaurant !
+        {% else %}
+            Note moyenne : {{ restaurant.averageRating }}/5
+        {% endif %}
+    </h2>
+    <p>{{ restaurant.description }}</p>
+
+    <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">edit</a>
+
+    {{ include('restaurant/_delete_form.html.twig') }}
+
+    <hr>
+
+    <h1>Vos commentaires</h1>
+
+    {% for review in restaurant.reviews %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <strong>{{ review.title }} (note: {{ review.rating }}/5)</strong>
+                <br>
+                <em>
+                    {{ review.content }}
+                </em>
+            </div>
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-success float-right">Envoyer</button>
+    {{ form_end(form) }}
+{% endblock %}
