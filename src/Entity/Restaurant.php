@@ -40,9 +40,15 @@ class Restaurant
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="restaurants")
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +138,32 @@ class Restaurant
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+        }
 
         return $this;
     }

@@ -6,6 +6,14 @@
     <a href="{{ path('restaurant_index') }}"><i class="fa fa-arrow left"></i> retour à la liste</a>
 
     <h1>{{ restaurant.name }}</h1>
+
+    {% for tag in restaurant.tags %}
+        <a class="badge badge-primary" href="{{ path('tag_show', { id: tag.id }) }}">
+            {{ tag.name }}
+        </a>
+    {% endfor %}
+
+
     <h2>
         {% if restaurant.reviews.count == 0 %}
             Soyez les premiers à laisser un avis sur ce restaurant !

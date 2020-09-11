@@ -40,11 +40,14 @@ class RestaurantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $restaurant->setUser( $this->getUser() );
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($restaurant);
             $entityManager->flush();
 
-            return $this->redirectToRoute('restaurant_index');
+            return $this->redirectToRoute('restaurant_show', [ 'id' => $restaurant->getId() ]);
         }
 
         return $this->render('restaurant/new.html.twig', [

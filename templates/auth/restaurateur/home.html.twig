@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Page profil du restaurateur {{ app.user.email }}</h1>
+
+    <h2>Liste de vos restaurants</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom du restaurant</th>
+                <th>Note moyenne</th>
+                <th>Tags</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for restaurant in app.user.restaurants %}
+                <tr>
+                    <td>{{ restaurant.id }}</td>
+                    <td>{{ restaurant.name }}</td>
+                    <td>{{  restaurant.averageRating }}</td>
+                    <td>
+                        {% for tag in restaurant.tags %}
+                            <a class="badge badge-primary" href="{{ path('tag_show', { id: tag.id }) }}">
+                                {{ tag.name }}
+                            </a>
+                        {% endfor %}
+                    </td>
+                    <td>Voir, modifier, supprimer</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
